@@ -15,11 +15,40 @@ class UsersTable {
     }
 
     public function fetchAll() {
-        $result = $this->db->query("SELECT * FROM users");
+        $result = $this->db->query(
+            "SELECT users.*, roles.name AS role 
+            FROM users LEFT JOIN roles
+            ON users.role_id = roles.id"
+        );
         return $result->fetchAll();
     }
 
-    public function findByEmailAndPass($email, $password) {
+    public function uploadPhoto(string $id, string $photo) {
+        $statement = $this->db->prepare(
+            "UPDATE users SET photo=:photo WHERE id=:id"
+        );
+        $statement->execute(["id" => $id, "photo" => $photo]);
+
+        return $statement->rowCount();
+    }
+
+    public function updateRole(string $id, string $role_id)
+    {
+        $statement = $this->db->prepare("UPDATE users SET role_id=:role_id WHERE id=:id");
+        $statement->execute(['id' => $id, 'role_id' => $role_id]);
+
+        return $statement->rowCount();
+    }
+
+    public function delete(string $id)
+    {
+        $statement = $this->db->prepare("DELETE FROM users WHERE id=:id");
+        $statement->execute(['id' => $id]);
+
+        return $statement->rowCount();
+    }
+
+    public function findByEmailAndPass(string $email, string $password) {
         try {
             $statement = $this->db->prepare(
                 "SELECT * FROM users WHERE email=:email AND password=:password"
