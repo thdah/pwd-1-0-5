@@ -20,6 +20,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark navbar-expand">
@@ -83,8 +84,17 @@
                         </div>
                     </td>
                     <td>
-                        <div>
+                        <div class="d-flex justify-content-between">
                             <a href="_actions/delete.php?id=<?= $user->id ?>" class="btn btn-sm btn-outline-danger">Delete</a>
+                            <?php if($user->suspended): ?>
+                                <a href="_actions/unsuspend.php?id=<?= $user->id ?>" style="color: grey">
+                                    <i class="fa-solid fa-lock"></i>
+                                </a>
+                            <?php else: ?>
+                                <a href="_actions/suspend.php?id=<?= $user->id ?>" class="btn btn-sm btn-outline-warning">
+                                    Ban
+                                </a>
+                            <?php endif ?>
                         </div>
                     </td>
                 </tr>

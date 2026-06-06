@@ -21,6 +21,12 @@
                 Account created
             </div>
         <?php endif ?>
+
+        <?php if(isset($_GET['suspended'])) : ?>
+            <div class="alert alert-danger">
+                Your account is locked. Contact your admin.
+            </div>
+        <?php endif ?>
         
         <form action="_actions/login.php" method="post" class="mb-3">
             <input type="email" class="form-control mb-2" name="email" placeholder="Email" required>
